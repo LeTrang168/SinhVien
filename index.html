@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lý Sinh Viên</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+        input {
+            margin: 5px;
+            padding: 6px;
+        }
+        button {
+            padding: 6px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h2>QUẢN LÝ SINH VIÊN</h2>
+
+<!-- FORM -->
+<input type="hidden" id="id">
+<input type="text" id="name" placeholder="Tên sinh viên">
+<input type="text" id="phone" placeholder="Số điện thoại">
+<input type="email" id="email" placeholder="Email">
+<input type="text" id="avatar" placeholder="Link avatar">
+<button onclick="save()">Lưu</button>
+
+<!-- TABLE -->
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Avatar</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody id="list"></tbody>
+</table>
+
+<script>
+    // 🔴 ĐỔI LINK API CỦA BẠN TẠI ĐÂY
+    const API_URL = "https://698594a46964f10bf253b140.mockapi.io/api/v1/SinhVien";
+
+    // LOAD DATA
+    function loadData() {
+        fetch(API_URL)
+            .then(res => res.json())
+            .then(data => {
+                let html = "";
+                data.forEach(sv => {
+                    html += `
+                        <tr>
+                            <td>${sv.id}</td>
+                            <td>${sv.name}</td>
+                            <td>${sv.phone}</td>
+                            <td>${sv.email}</td>
+                            <td><img src="${sv.avatar}"></td>
+                            <td>
+                                <button onclick="edit(${sv.id})">Sửa</button>
+                                <button onclick="remove(${sv.id})">Xóa</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                document.getElementById("list").innerHTML = html;
+            });
+    }
+
+    loadData();
+
+    // ADD + UPDATE
+    function save() {
+        let id = document.getElementById("id").value;
+        let sv = {
+            name: document.getElementById("name").value,
+            phone: document.getElementById("phone").value,
+            email: document.getElementById("email").value,
+            avatar: document.getElementById("avatar").value
+        };
+
+        if (id == "") {
+            // ADD
+            fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(sv)
+            }).then(() => loadData());
+        } else {
+            // UPDATE
+            fetch(`${API_URL}/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(sv)
+            }).then(() => loadData());
+        }
+
+        clearForm();
+    }
+
+    // EDIT
+    function edit(id) {
+        fetch(`${API_URL}/${id}`)
+            .then(res => res.json())
+            .then(sv => {
+                document.getElementById("id").value = sv.id;
+                document.getElementById("name").value = sv.name;
+                document.getElementById("phone").value = sv.phone;
+                document.getElementById("email").value = sv.email;
+                document.getElementById("avatar").value = sv.avatar;
+            });
+    }
+
+    // DELETE
+    function remove(id) {
+        if (confirm("Bạn có chắc muốn xóa?")) {
+            fetch(`${API_URL}/${id}`, { method: "DELETE" })
+                .then(() => loadData());
+        }
+    }
+
+    function clearForm() {
+        document.getElementById("id").value = "";
+        document.getElementById("name").value = "";
+        document.getElementById("phone").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("avatar").value = "";
+    }
+</script>
+
+</body>
+</html>
