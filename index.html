@@ -42,14 +42,15 @@
     }
     .nav-links a:hover { color: #00bfff; }
     .btn-login {
-      background: #00bfff;
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-    }
+  background: #00bfff;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none; /* QUAN TRỌNG */
+  display: inline-block;
+}
     .btn-login:hover { background: #0099cc; }
 
     /* ==================== HERO & BOOKING (GỮI NGUYÊN) ==================== */
@@ -258,7 +259,7 @@
           <a href="https://giaodiendatlich.vercel.app/">Khuyến mãi</a>
           <a href="https://datlichlamtoc.id.vn/about.html">Về chúng tôi</a>
         </div>
-        <button class="btn-login"><a href="https://tranthitrucly.io.vn/loginuser ">Đăng nhập</button>
+       <a href="https://tranthitrucly.io.vn/loginuser" class="btn-login">Đăng nhập</a>
       </div>
     </div>
   </header>
@@ -275,6 +276,7 @@
   </div>
 
   
+
 
   <!-- KHUYẾN MÃI - THIẾT KẾ MỚI -->
   <div class="promo-section">
@@ -320,7 +322,9 @@
         </div>
       </div>
     </div>
-
+    <div class="copyright">
+      © 2026 FORMAN Barber Shop. All rights reserved.
+    </div>
   </footer>
 
   <script>
