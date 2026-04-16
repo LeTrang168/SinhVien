@@ -374,9 +374,10 @@
       });
     }
 
-    function claimPromo(name, value) {
-      alert(`🎉 CHÚC MỪNG!\n\nBạn đã nhận ưu đãi:\n${name}\nGiảm ${value}% cho dịch vụ`);
-    }
+   function claimPromo(name, value) {
+  const url = `https://tranthitrucly.io.vn/datlich?promo=${encodeURIComponent(name)}&discount=${value}`;
+  window.location.href = url;
+}
 
     function bookAppointment() {
       const phone = document.getElementById('phone').value.trim();
