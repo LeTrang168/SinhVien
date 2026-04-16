@@ -374,11 +374,9 @@
       });
     }
 
-   function claimPromo(name, value) {
-  const url = `https://tranthitrucly.io.vn/datlich?promo=${encodeURIComponent(name)}&discount=${value}`;
-  window.location.href = url;
+  function claimPromo(name, value) {
+  window.location.href = "https://tranthitrucly.io.vn/datlich";
 }
-
     function bookAppointment() {
       const phone = document.getElementById('phone').value.trim();
       if (phone) {
